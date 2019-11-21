@@ -1,0 +1,67 @@
+From abd15584282cc74d9a2f4cf467d0cf5d31b29f1b Mon Sep 17 00:00:00 2001
+From: iuncuim <iuncuim@gmail.com>
+Date: Thu, 21 Nov 2019 15:11:24 +0300
+Subject: [PATCH] dddddd
+
+---
+ include/configs/mx6sxsabresd.h | 15 +++++++--------
+ 1 file changed, 7 insertions(+), 8 deletions(-)
+
+diff --git a/include/configs/mx6sxsabresd.h b/include/configs/mx6sxsabresd.h
+index dc4181d..554cb4c 100644
+--- a/include/configs/mx6sxsabresd.h
++++ b/include/configs/mx6sxsabresd.h
+@@ -45,18 +45,18 @@
+ #define CONFIG_EXTRA_ENV_SETTINGS \
+ 	UPDATE_M4_ENV \
+ 	"script=boot.scr\0" \
+-	"image=zImage\0" \
++	"image=uImage\0" \
+ 	"console=ttymxc0\0" \
+ 	"fdt_high=0xffffffff\0" \
+ 	"initrd_high=0xffffffff\0" \
+-	"fdt_file=imx6sx-sdb.dtb\0" \
++	"fdt_file=dtb\0" \
+ 	"fdt_addr=0x88000000\0" \
+ 	"boot_fdt=try\0" \
+ 	"ip_dyn=yes\0" \
+ 	"videomode=video=ctfb:x:800,y:480,depth:24,pclk:29850,le:89,ri:164,up:23,lo:10,hs:10,vs:10,sync:0,vmode:0\0" \
+-	"mmcdev=2\0" \
++	"mmcdev=3\0" \
+ 	"mmcpart=1\0" \
+-	"finduuid=part uuid mmc 2:2 uuid\0" \
++	"finduuid=part uuid mmc 3:2 uuid\0" \
+ 	"mmcargs=setenv bootargs console=${console},${baudrate} " \
+ 		"root=PARTUUID=${uuid} rootwait rw\0" \
+ 	"loadbootscript=" \
+@@ -70,16 +70,16 @@
+ 		"run mmcargs; " \
+ 		"if test ${boot_fdt} = yes || test ${boot_fdt} = try; then " \
+ 			"if run loadfdt; then " \
+-				"bootz ${loadaddr} - ${fdt_addr}; " \
++				"bootm ${loadaddr} - ${fdt_addr}; " \
+ 			"else " \
+ 				"if test ${boot_fdt} = try; then " \
+-					"bootz; " \
++					"bootm; " \
+ 				"else " \
+ 					"echo WARN: Cannot load the DT; " \
+ 				"fi; " \
+ 			"fi; " \
+ 		"else " \
+-			"bootz; " \
++			"bootm; " \
+ 		"fi;\0" \
+ 	"netargs=setenv bootargs console=${console},${baudrate} " \
+ 		"root=/dev/nfs " \
+@@ -113,7 +113,6 @@
+ 	   "run findfdt; " \
+ 	   "mmc dev ${mmcdev}; if mmc rescan; then " \
+ 		   "if run loadbootscript; then " \
+-			   "run bootscript; " \
+ 		   "else " \
+ 			   "if run loadimage; then " \
+ 				   "run mmcboot; " \
+-- 
+2.7.4
+
