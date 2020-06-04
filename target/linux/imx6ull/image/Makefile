@@ -29,6 +29,23 @@ define Build/sunxi-sdcard
 	rm -f $@.boot
 endef
 
+define Build/imx6ull-ubootimg
+	rm -f $@
+	rm -f $@.pad
+	dd if=/dev/zero of=$@.pad bs=1024 count=1
+	cat $@.pad $(BIN_DIR)/u-boot-somlabs_visionsom_6ull/u-boot-dtb.imx >$@
+endef
+
+define Build/imx6ull-mtd-full
+	mv $@ $@.fw	
+	$(call Build/imx6ull-ubootimg)
+	dd if=/dev/zero of=$@.new bs=1M count=1
+	dd if=$@ of=$@.new conv=notrunc	
+	cat $@.fw >>$@.new	
+	mv $@.new $@
+	rm -f $@.new
+endef
+
 # why \x00\x00\x00\x00 for zImage-initramfs
 define Device/Default
   PROFILES := Generic
@@ -45,6 +62,11 @@ endef
 define Device/somlabs
   DEVICE_TITLE := somlabs-sd
   DEVICE_DTS := imx6ull-14x14-evk
+  KERNEL := kernel-bin | append-dtb | uImage none
+  IMAGE_SIZE := 15000k
+  IMAGES := mtd-full.bin sdcard.img
+  IMAGE/sdcard.img := sunxi-sdcard | append-metadata
+  IMAGE/mtd-full.bin := append-kernel | append-rootfs | pad-rootfs | imx6ull-mtd-full
 endef
 TARGET_DEVICES += somlabs
 
