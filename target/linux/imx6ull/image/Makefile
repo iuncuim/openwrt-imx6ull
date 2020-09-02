@@ -54,20 +54,25 @@ define Device/Default
   KERNEL_SUFFIX := -uImage
   KERNEL_NAME := zImage
   KERNEL_PREFIX := $$(IMAGE_PREFIX)
+endef
+
+define Device/somlabs_spi
+  DEVICE_TITLE := somlabs-spi
+  DEVICE_DTS := imx6ull-14x14-evk
+  KERNEL := kernel-bin | append-dtb | uImage none
+  IMAGE_SIZE := 15000k
+  IMAGES := mtd-full.bin
+  IMAGE/mtd-full.bin := append-kernel | append-rootfs | pad-rootfs | imx6ull-mtd-full
+endef
+TARGET_DEVICES += somlabs_spi
+
+define Device/somlabs_sd
+  DEVICE_TITLE := somlabs-sd
+  DEVICE_DTS := imx6ull-14x14-evk
   KERNEL := kernel-bin | uImage none
   IMAGES := sdcard.img.gz
   IMAGE/sdcard.img.gz := sunxi-sdcard | append-metadata | gzip
 endef
-
-define Device/somlabs
-  DEVICE_TITLE := somlabs-sd
-  DEVICE_DTS := imx6ull-14x14-evk
-  KERNEL := kernel-bin | append-dtb | uImage none
-  IMAGE_SIZE := 15000k
-  IMAGES := mtd-full.bin sdcard.img
-  IMAGE/sdcard.img := sunxi-sdcard | append-metadata
-  IMAGE/mtd-full.bin := append-kernel | append-rootfs | pad-rootfs | imx6ull-mtd-full
-endef
-TARGET_DEVICES += somlabs
+TARGET_DEVICES += somlabs_sd
 
 $(eval $(call BuildImage))

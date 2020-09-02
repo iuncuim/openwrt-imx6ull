@@ -9,7 +9,7 @@ include $(TOPDIR)/rules.mk
 ARCH:=arm
 BOARD:=imx6ull
 BOARDNAME:=Freescale i.MX 6 ULL
-FEATURES:=audio display fpu gpio pcie rtc usb usbgadget squashfs targz nand ubifs
+FEATURES:=audio display fpu gpio rtc usb usbgadget squashfs ext4 targz nand ubifs
 CPU_TYPE:=cortex-a7
 CPU_SUBTYPE:=neon
 MAINTAINER:=Luka Perkov <luka@openwrt.org>
@@ -20,6 +20,6 @@ include $(INCLUDE_DIR)/target.mk
 
 KERNELNAME:=zImage dtbs
 
-DEFAULT_PACKAGES += uboot-envtools
+DEFAULT_PACKAGES += uboot-envtools 
 
 $(eval $(call BuildTarget))
