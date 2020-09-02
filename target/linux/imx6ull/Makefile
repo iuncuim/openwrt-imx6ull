@@ -14,7 +14,7 @@ CPU_TYPE:=cortex-a7
 CPU_SUBTYPE:=neon
 MAINTAINER:=Luka Perkov <luka@openwrt.org>
 
-KERNEL_PATCHVER:=4.19
+KERNEL_PATCHVER:=5.4
 
 include $(INCLUDE_DIR)/target.mk
 
