@@ -1,15 +1,12 @@
 include $(TOPDIR)/rules.mk
+include $(INCLUDE_DIR)/kernel.mk
 
-PKG_NAME:=uboot-imx6ull
-PKG_SOURCE_DATE:=2018-09
-PKG_RELEASE:=1
-
-PKG_SOURCE_PROTO:=git
-PKG_SOURCE_URL:=https://github.com/SoMLabs/somlabs-uboot-imx.git
-PKG_SOURCE_VERSION:=dbe68c464c301ddcd83ca4c09d7bf93baf85ed5e
+PKG_VERSION:=2020.10
+PKG_HASH:=0d481bbdc05c0ee74908ec2f56a6daa53166cc6a78a0e4fac2ac5d025770a622
 
 include $(INCLUDE_DIR)/u-boot.mk
 include $(INCLUDE_DIR)/package.mk
+include $(INCLUDE_DIR)/host-build.mk
 
 define U-Boot/Default
   BUILD_TARGET:=imx6ull
@@ -60,7 +57,7 @@ define U-Boot/wandboard_solo
 endef
 
 define U-Boot/somlabs_visionsom_6ull
-  NAME:=NXP ls1012afrdm 64b Dev Board
+  NAME:=SoMLabs VisionSOM-6ULL board
 endef
 
 UBOOT_TARGETS := \
