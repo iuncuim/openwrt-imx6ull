@@ -18,7 +18,7 @@ define Build/sunxi-sdcard
 	rm -f $@.boot
 	mkfs.fat $@.boot -C $(FAT32_BLOCKS)
 
-	mcopy -i $@.boot $(DTS_DIR)/$(DEVICE_DTS).dtb ::dtb
+	mcopy -i $@.boot $(KDIR)/image-$(firstword $(DEVICE_DTS)).dtb ::dtb
 	mcopy -i $@.boot $(IMAGE_KERNEL) ::uImage
 	./gen_sunxi_sdcard_img.sh $@ \
 		$@.boot \
@@ -54,11 +54,12 @@ define Device/Default
   KERNEL_SUFFIX := -uImage
   KERNEL_NAME := zImage
   KERNEL_PREFIX := $$(IMAGE_PREFIX)
+  DEVICE_DTS_DIR := ../dts
 endef
 
 define Device/somlabs_spi
   DEVICE_TITLE := somlabs-spi
-  DEVICE_DTS := imx6ull-14x14-evk
+  DEVICE_DTS := imx6ull_somlabs_visionsom-6ull-emmc
   KERNEL := kernel-bin | append-dtb | uImage none
   IMAGE_SIZE := 15000k
   IMAGES := mtd-full.bin
@@ -68,7 +69,7 @@ TARGET_DEVICES += somlabs_spi
 
 define Device/somlabs_sd
   DEVICE_TITLE := somlabs-sd
-  DEVICE_DTS := imx6ull-14x14-evk
+  DEVICE_DTS := imx6ull_somlabs_visionsom-6ull-emmc
   KERNEL := kernel-bin | uImage none
   IMAGES := sdcard.img.gz
   IMAGE/sdcard.img.gz := sunxi-sdcard | append-metadata | gzip
